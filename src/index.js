@@ -16,6 +16,14 @@ function* getPets() {
   yield put({type: 'SET_PETS', payload: petResponse.data});
 }
 
+function* newPets(action) {
+  try{
+      yield axios.post('/pet', action.payload)
+  } catch (error){
+      console.log('error in the post' , error);
+  }
+}
+
 const petReducer = (state = [], action) => {
   switch (action.type) {
     case 'SET_PETS':
@@ -27,6 +35,7 @@ const petReducer = (state = [], action) => {
 
 function* rootSaga() {
   yield takeEvery('FETCH_PETS', getPets);
+  yield takeEvery('NEW_PET', newPets);
 }
 
 const storeInstance = createStore(

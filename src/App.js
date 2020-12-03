@@ -32,7 +32,7 @@ class App extends Component {
       // onClick this function will fire off our new state object
      addPet = () => {
          console.log('this is our state' , this.state);
-         this.props.dispatch({ type: 'NEW_PET' , payload: this.state});
+         this.props.dispatch({ type: 'NEW_PET' , payload: this.state.new_pet});
     }
 
     getPet = () => {
