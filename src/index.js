@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './components/App/App';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
@@ -20,7 +20,20 @@ function* newPets(action) {
   try{
       yield axios.post('/pet', action.payload)
   } catch (error){
-      console.log('error in the post' , error);
+      console.log('error in the pet post' , error);
+  }
+}
+
+function* getOwners() {
+  const ownerResponse = yield axios.get('/owner');
+  yield put({type: 'SET_OWNER', payload: ownerResponse.data});
+}
+
+function* newOwner(action) {
+  try {
+    yield axios.post('/owner', action.payload)
+  } catch (error) {
+    console.log('error in the owner post', error)
   }
 }
 
@@ -33,14 +46,26 @@ const petReducer = (state = [], action) => {
   }
 }
 
+const ownerReducer = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_OWNER':
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 function* rootSaga() {
   yield takeEvery('FETCH_PETS', getPets);
+  yield takeEvery('FETCH_OWNERS', getOwners)
   yield takeEvery('NEW_PET', newPets);
+  yield takeEvery('NEW_OWNER', newOwner)
 }
 
 const storeInstance = createStore(
   combineReducers({
-    petReducer
+    petReducer,
+    ownerReducer
   }),
   applyMiddleware(sagaMiddleware, logger)
 )
@@ -53,4 +78,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
-
