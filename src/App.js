@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import Header from './Header';
 
 class App extends Component {
 
@@ -43,6 +43,7 @@ class App extends Component {
   render() {
     return (
       <div>
+        <Header/>
           <form onSubmit={this.addPet}>
               <h1> NEW PET </h1>
 
