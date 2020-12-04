@@ -11,9 +11,10 @@ import axios from 'axios';
 
 const sagaMiddleware = createSagaMiddleware();
 
-function* getPets() {
+function* getPets(action) {
   const petResponse = yield axios.get('/pet');
   yield put({type: 'SET_PETS', payload: petResponse.data});
+  yield action.history('/pets')
 }
 
 function* newPets(action) {

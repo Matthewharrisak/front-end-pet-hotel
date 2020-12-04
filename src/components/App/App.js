@@ -27,6 +27,11 @@ class App extends Component {
     this.props.dispatch({ type: 'FETCH_OWNER'});
   }
 
+  clickPetsRoute = () => {
+    this.props.dispatch({ type: 'FETCH_PETS' , history: this.props.history});
+    console.log('clcik')
+  }
+
   render() {
     return (
       <Router>
@@ -34,7 +39,7 @@ class App extends Component {
         {JSON.stringify(this.props.store.petReducer)}
         {JSON.stringify(this.props.store.ownerReducer)}
           <Header/>
-
+          <button onClick={this.clickPetsRoute}></button>
           <Route exact path='/pet' component={Dashboard} />
           <Route exact path='/owner' component={ManageOwners} />
       </div>
